@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="{{ css_path }}">
+</head>
+
+<body>
+    <div class="header">
+        <img src="{{ logo_path }}" alt="Wallet Cambios Logo" class="logo">
+        <div class="company-name">{{ data.companyInfo.name }}</div>
+        <div class="company-details">
+            Dirección web: {{ data.companyInfo.website }}<br>
+            Email: {{ data.companyInfo.email }} | Tel: {{ data.companyInfo.phone }}
+        </div>
+    </div>
+
+    <div class="invoice-strip">
+        <div>Factura Nº: {{ data.invoiceInfo.invoiceNumber }}</div>
+        <div>Fecha: {{ data.invoiceInfo.date }}</div>
+        <div>Transacción Nº: {{ data.invoiceInfo.transactionNumber }}</div>
+    </div>
+
+    <div class="client-section">
+        <h3>Datos del Cliente</h3>
+        <div class="client-card">
+            <div class="client-row">
+                <strong>Nombre remitente:</strong> {{ data.clientInfo.senderName }}
+            </div>
+            <div class="client-row">
+                <strong>Documento:</strong> {{ data.clientInfo.document }}
+            </div>
+        </div>
+    </div>
+
+    <table class="transactions-table">
+        <thead>
+            <tr>
+                <th>Nº Pago</th>
+                <th>País salida</th>
+                <th>Banco destino</th>
+                <th>Destinatario</th>
+                <th>Nº Referencia</th>
+                <th>Monto enviado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in data.transactions %}
+            <tr>
+                <td>{{ loop.index0 }}</td> <!-- Or just loop.index if 1-based, image shows 0 then 1 so index0 -->
+                <td>{{ tx.originCountry }}</td>
+                <td>{{ tx.destinationBank }}</td>
+                <td>{{ tx.recipient }}</td>
+                <td>{{ tx.reference }}</td>
+                <td>{{ tx.amountSent }}</td>
+                <!-- Image shows USD Equivalent but it's not in the table columns in the image?? 
+                     Wait, looking at the user JSON, it has 'usdEquivalent', but image table columns are:
+                     N pago, Pais salida, Banco destino, Destinatario, N Referencia, Monto enviado.
+                     I will stick to the image columns. -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totals-section">
+        <div>Total de pagos registrados: {{ data.totals.totalPayments }}</div>
+        <div>Monto total declarado: {{ data.totals.totalDeclaredAmount }}</div>
+    </div>
+
+    <div class="footer">
+        Factura generada automáticamente por {{ data.companyInfo.name }}.<br>
+        Todos los pagos están sujetos a verificación bancaria.
+    </div>
+</body>
+
+</html>
