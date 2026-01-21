@@ -49,7 +49,7 @@
         <tbody>
             {% for tx in data.transactions %}
             <tr>
-                <td>{{ loop.index0 }}</td> <!-- Or just loop.index if 1-based, image shows 0 then 1 so index0 -->
+                <td>{{ loop.index }}</td> <!-- Or just loop.index if 1-based, image shows 0 then 1 so index0 -->
                 <td>{{ tx.originCountry }}</td>
                 <td>{{ tx.destinationBank }}</td>
                 <td>{{ tx.recipient }}</td>
